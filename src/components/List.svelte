@@ -29,6 +29,13 @@
 	}
 </script>
 
+<style>
+	.card:focus-within{
+		background-color: #ffecba;
+		transition: background-color 1s;
+	}
+</style>
+
 <div class="container mt-5">
 	<div class="columns is-multiline">
 		{#each $tasks as task}
