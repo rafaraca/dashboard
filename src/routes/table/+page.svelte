@@ -4,6 +4,6 @@
 
 <div class="container" in:blur={{ amount: 5, delay: 400 }}>
     <div class="box">
-        About Page
+        Table
     </div>
 </div>
