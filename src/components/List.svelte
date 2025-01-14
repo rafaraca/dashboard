@@ -1,15 +1,11 @@
 <script lang="ts">
 	import { tasks } from '../store/stores';
 	import ListAPI from '../store/ListAPI';
-	import { onMount } from 'svelte';
-	import type TaskEntity from '../models/entity/TaskEntity';
 	import { blur, slide, fly, scale } from 'svelte/transition';
-    import { expoOut } from 'svelte/easing';
+	import { expoOut } from 'svelte/easing';
+	import type TaskEntity from '../models/entity/TaskEntity';
 
-	onMount(async () => {
-		$tasks = (await ListAPI.getTasks()) as TaskEntity[];
-		console.log('✌️$tasks --->', $tasks);
-	});
+	//export let task: TaskEntity;
 
 	const edit = (id: string) => {
 		ListAPI.addTask($tasks);
@@ -22,13 +18,26 @@
 			ListAPI.addTask($tasks);
 		}
 	};
+
+	function handleUpdate(task: TaskEntity, event: Event) {
+		const updatedTask = { ...task, done: (event.target as HTMLInputElement).checked };
+		const taskIndex = $tasks.findIndex(t => t.id === updatedTask.id);
+		if (taskIndex !== -1) {
+			$tasks[taskIndex] = updatedTask;
+			ListAPI.addTask($tasks);
+		}
+	}
 </script>
 
 <div class="container mt-5">
 	<div class="columns is-multiline">
 		{#each $tasks as task}
 			<div class="column is-one-third">
-				<div class="card" in:fly={{y: -150, x: 0, duration: 1000}} out:slide="{{delay: 250, duration: 500, easing: expoOut}}" >
+				<div
+					class="card"
+					in:fly={{ y: -150, x: 0, duration: 1000, delay: 500 }}
+					out:slide={{ delay: 250, duration: 500, easing: expoOut }}
+				>
 					<header class="card-header">
 						<button
 							class="delete is-small"
@@ -37,7 +46,11 @@
 						></button>
 						<p class="card-header-title is-centered level">
 							{task.name}
-							<input type="checkbox" on:blur={() => edit(task.id)} bind:checked={task.done} />
+							<input
+								type="checkbox"
+								bind:checked={task.done}
+								on:change={(event) => handleUpdate(task, event)}
+							/>
 						</p>
 					</header>
 					<div class="card-content">
