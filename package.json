@@ -37,8 +37,5 @@
 	"dependencies": {
 		"bulma": "^1.0.3",
 		"uuid": "^11.0.5"
-	},
-	"resolutions": {
-		"rollup": "npm:@rollup/wasm-node"
 	}
 }
