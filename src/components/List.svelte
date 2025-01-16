@@ -1,44 +1,30 @@
 <script lang="ts">
-	import { tasks } from '../store/stores';
-	import ListAPI from '../store/ListAPI';
-	import { blur, slide, fly, scale } from 'svelte/transition';
+	import { todos, loadTodos, removeTodo, updateTodo } from '../store/todoStore';
+	import { slide, fly } from 'svelte/transition';
 	import { expoOut } from 'svelte/easing';
 	import type TaskEntity from '../models/entity/TaskEntity';
+	import { onMount } from 'svelte';
 
-	//export let task: TaskEntity;
+	onMount(async () => {
+		await loadTodos();
+	});
 
-	const edit = (id: string) => {
-		ListAPI.addTask($tasks);
-	};
+	async function handleUpdate(task: TaskEntity, event: Event) {
+		const updatedTask = { ...task, done: (event.target as HTMLInputElement).checked };
+		await updateTodo(task.id, updatedTask);
+	}
 
-	const deleteTask = (id: string) => {
+	async function deleteTask(id: string) {
 		const confirmMsg = confirm('Are you sure?');
 		if (confirmMsg) {
-			$tasks = $tasks.filter((task) => task.id !== id);
-			ListAPI.addTask($tasks);
-		}
-	};
-
-	function handleUpdate(task: TaskEntity, event: Event) {
-		const updatedTask = { ...task, done: (event.target as HTMLInputElement).checked };
-		const taskIndex = $tasks.findIndex(t => t.id === updatedTask.id);
-		if (taskIndex !== -1) {
-			$tasks[taskIndex] = updatedTask;
-			ListAPI.addTask($tasks);
+			await removeTodo(id);
 		}
 	}
 </script>
 
-<style>
-	.card:focus-within{
-		background-color: #ffecba;
-		transition: background-color 1s;
-	}
-</style>
-
 <div class="container mt-5">
 	<div class="columns is-multiline">
-		{#each $tasks as task}
+		{#each $todos as task}
 			<div class="column is-one-third">
 				<div
 					class="card"
@@ -65,8 +51,8 @@
 							<textarea
 								class="textarea"
 								rows="3"
-								on:blur={() => edit(task.id)}
-								on:keydown={(e) => e.key === 'Enter' && edit(task.id)}
+								on:blur={() => updateTodo(task.id, task)}
+								on:keydown={(e) => e.key === 'Enter' && updateTodo(task.id, task)}
 								bind:value={task.description}
 							></textarea>
 						</div>
@@ -78,3 +64,10 @@
 		{/each}
 	</div>
 </div>
+
+<style>
+	.card:focus-within {
+		background-color: #ffecba;
+		transition: background-color 1s;
+	}
+</style>

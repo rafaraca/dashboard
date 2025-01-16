@@ -1,14 +1,11 @@
-<script>
+<script lang="ts">
 	import Form from './Form.svelte';
-	import { tasks } from '../store/stores';
+	import { todos } from '../store/todoStore';
 
-	$: counter = $tasks.length;
-	$: tasksDone = $tasks.filter((task) => task.done).length;
+	$: counter = $todos.length;
+	$: tasksDone = $todos.filter((task: { done: boolean }) => task.done).length;
 
-	/**
-	 * @type {import("svelte").SvelteComponent<{ showForm?: (() => string) | undefined; }, { [evt: string]: CustomEvent<any>; }, {}> & { $$bindings?: string | undefined; } & { showForm: () => string; }}
-	 */
-	let form;
+	let form: Form;
 </script>
 
 <section class="hero is-primary welcome is-small">

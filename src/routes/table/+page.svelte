@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { blur, slide } from 'svelte/transition';
 	import Task from '../../components/Task.svelte';
-	import { tasks } from '../../store/stores';
+	import { todos } from '../../store/todoStore';
 
-    let undone = $tasks.filter((task) => !task.done).length;
-	let sortTasks: typeof $tasks = [];
+    let undone = $todos.filter((task) => !task.done).length;
+	let sortTasks: typeof $todos = [];
 
     $: {
-		sortTasks = $tasks.sort((a, b) => Number(a.done) - Number(b.done));
+		sortTasks = $todos.sort((a, b) => Number(a.done) - Number(b.done));
     }
 </script>
 
 <div class="container" in:blur={{ amount: 5, delay: 400 }}>
-    <input type="range" bind:value={undone} min="0" max={$tasks.length} step="1" />
+    <input type="range" bind:value={undone} min="0" max={$todos.length} step="1" />
 	<div class="box">
 		{#each sortTasks.slice(0, undone) as task (task.id)}
 			<div transition:slide class="table">
