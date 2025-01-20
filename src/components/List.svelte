@@ -4,22 +4,41 @@
 	import { expoOut } from 'svelte/easing';
 	import type TaskEntity from '../models/entity/TaskEntity';
 	import { onMount } from 'svelte';
+	import ConfirmationModal from './ConfirmationModal.svelte';
 
-	onMount(async () => {
-		await loadTodos();
-	});
+	let isModalOpen = false;
+	let selectedTaskId: string | null = null;
+	let selectedTaskName: string | null = null; 
+
+	function openModal(taskId: string, taskName: string) {
+		selectedTaskId = taskId;
+		selectedTaskName = taskName;
+		isModalOpen = true;
+	}
+
+	async function confirmDelete() {
+		if (selectedTaskId) {
+			await removeTodo(selectedTaskId);
+			selectedTaskId = null;
+			selectedTaskName = null;
+		}
+		isModalOpen = false;
+	}
+
+	function cancelDelete() {
+		selectedTaskId = null;
+		selectedTaskName = null;
+		isModalOpen = false;
+	}
 
 	async function handleUpdate(task: TaskEntity, event: Event) {
 		const updatedTask = { ...task, done: (event.target as HTMLInputElement).checked };
 		await updateTodo(task.id, updatedTask);
 	}
 
-	async function deleteTask(id: string) {
-		const confirmMsg = confirm('Are you sure?');
-		if (confirmMsg) {
-			await removeTodo(id);
-		}
-	}
+	onMount(async () => {
+		await loadTodos();
+	});
 </script>
 
 <div class="container mt-5">
@@ -33,9 +52,10 @@
 				>
 					<header class="card-header">
 						<button
-							class="delete is-small"
-							on:click={() => deleteTask(task.id)}
+							class="delete is-medium custom-delete-btn"
+							on:click={() => openModal(task.id, task.name)}
 							aria-label="Delete task"
+							color="red"
 						></button>
 						<p class="card-header-title is-centered level">
 							{task.name}
@@ -65,9 +85,25 @@
 	</div>
 </div>
 
+<ConfirmationModal
+	bind:isOpen={isModalOpen}
+	onConfirm={confirmDelete}
+	onCancel={cancelDelete}
+	message={`Are you sure you want to delete the task "${selectedTaskName}"?`}
+/>
+
 <style>
 	.card:focus-within {
 		background-color: #ffecba;
 		transition: background-color 1s;
+	}
+	.custom-delete-btn {
+		background-color: red;
+		color: white;
+		border-radius: 50%;
+		border: none;
+	}
+	.custom-delete-btn:hover {
+		background-color: darkred;
 	}
 </style>

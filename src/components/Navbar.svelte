@@ -28,7 +28,23 @@
 				<ul>
 					<li><a href="/#/">Cards</a></li>
 					<li><a href="/table">Table</a></li>
-					<li><a href="/about">About my site</a></li>
+					<li><a href="/shopping-list">Shopping List</a></li>
+					<li><a href="/about-me">Diary Writes</a></li>
+					<li>
+						<a href="/finhealthy">
+							<span class="icon">
+								<i class="fa-solid fa-heart"></i>
+							</span>
+								FinHealthy
+						</a>
+					</li>
+					<li>
+						<a href="/aims">
+							<span class="icon">
+								<i class="fa-solid fa-bullseye"></i>
+							</span>Aims
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
