@@ -1,14 +1,11 @@
-<script>
+<script lang="ts">
 	import Form from './Form.svelte';
-	import { tasks } from '../store/stores';
+	import { todos } from '../store/todoStore';
 
-	$: counter = $tasks.length;
-	$: tasksDone = $tasks.filter((task) => task.done).length;
+	$: counter = $todos.length;
+	$: tasksDone = $todos.filter((task: { done: boolean }) => task.done).length;
 
-	/**
-	 * @type {import("svelte").SvelteComponent<{ showForm?: (() => string) | undefined; }, { [evt: string]: CustomEvent<any>; }, {}> & { $$bindings?: string | undefined; } & { showForm: () => string; }}
-	 */
-	let form;
+	let form: Form;
 </script>
 
 <section class="hero is-primary welcome is-small">
@@ -31,7 +28,23 @@
 				<ul>
 					<li><a href="/#/">Cards</a></li>
 					<li><a href="/table">Table</a></li>
-					<li><a href="/about">About my site</a></li>
+					<li><a href="/shopping-list">Shopping List</a></li>
+					<li><a href="/about-me">Diary Writes</a></li>
+					<li>
+						<a href="/finhealthy">
+							<span class="icon">
+								<i class="fa-solid fa-heart"></i>
+							</span>
+								FinHealthy
+						</a>
+					</li>
+					<li>
+						<a href="/aims">
+							<span class="icon">
+								<i class="fa-solid fa-bullseye"></i>
+							</span>Aims
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>

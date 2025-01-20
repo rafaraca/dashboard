@@ -1,18 +1,30 @@
 <script lang="ts">
 	import '../../node_modules/bulma/css/bulma.min.css';
 	import List from '../components/List.svelte';
-	import { tasks } from '../store/stores';
-    import ListAPI from '../store/ListAPI';
+	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
-    import type TaskEntity from '../models/entity/TaskEntity';
+	import { collection, getDocs } from 'firebase/firestore';
+	import { db } from '../lib/firebase';
+	import type TaskEntity from '../models/entity/TaskEntity';
 
-    onMount(async () => {
-		$tasks = (await ListAPI.getTasks()) as TaskEntity[];
+	const tasks = writable<TaskEntity[]>([]);
+
+	onMount(async () => {
+		try {
+			const querySnapshot = await getDocs(collection(db, 'todos'));
+			const loadedTasks = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as TaskEntity[];
+			tasks.set(loadedTasks); 
+		} catch (error) {
+			console.error('Error fetching tasks:', error);
+		}
 	});
 
-
-	$: counter = $tasks.length;
-	$: tasksDone = $tasks.filter((task) => task.done).length;
+	let counter = 0;
+	let tasksDone = 0;
+	$: tasks.subscribe((value) => {
+		counter = value.length;
+		tasksDone = value.filter((task) => task.done).length;
+	});
 </script>
 
 <svelte:head><title>Dashboard: {tasksDone} / {counter}</title></svelte:head>
