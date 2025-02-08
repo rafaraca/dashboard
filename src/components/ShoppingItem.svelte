@@ -42,26 +42,32 @@
 			<span class="checkmark"></span>
 			{item.name}
 		</label>
-		<button class="edit-btn" on:click={() => (isEditing = true)}>✎</button>
-		<button class="delete-btn" on:click={() => onDelete(item.id)}>✖</button>
+		<div class="button-group">
+			<button class="edit-btn mr-4" on:click={() => (isEditing = true)} aria-label="Edit item">
+				<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+			</button>
+			<button class="delete-btn" on:click={() => onDelete(item.id)} aria-label="Delete item">
+				<i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+			</button>
+		</div>
 	{/if}
 </div>
 
 <style>
-    .shopping-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
-    }
+	.shopping-item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px;
+		border-bottom: 1px solid #ccc;
+	}
 	.checkbox-container {
 		display: flex;
 		align-items: center;
 		cursor: pointer;
 	}
 	.checkbox-container input {
-		display: none; 
+		display: none;
 	}
 	.checkmark {
 		width: 20px;
@@ -76,29 +82,35 @@
 	.checkbox-container input[type='checkbox']:checked + .checkmark {
 		background: #40b9e9;
 	}
-    .edit-input {
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-right: 5px;
-    }
-    .edit-btn, .save-btn, .cancel-btn {
-        margin-left: 10px;
-        cursor: pointer;
-        background: #4caf50;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-    .edit-btn:hover, .save-btn:hover, .cancel-btn:hover {
-        background: #45a049;
-    }
-    .delete-btn {
-        background: none;
-        color: #f44336;
-        border: none;
-        cursor: pointer;
-        font-size: 1.2rem;
-    }
+	.edit-input {
+		padding: 5px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		margin-right: 5px;
+	}
+	.cancel-btn {
+		margin-left: 10px;
+		cursor: pointer;
+		background: #4caf50;
+		color: white;
+		border: none;
+		padding: 5px 10px;
+		border-radius: 5px;
+	}
+	.cancel-btn:hover {
+		background: #45a049;
+	}
+	.edit-btn {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 1.2rem;
+	}
+	.delete-btn {
+		background: none;
+		color: #f44336;
+		border: none;
+		cursor: pointer;
+		font-size: 1.2rem;
+	}
 </style>
