@@ -48,40 +48,36 @@
 </div>
 
 <style>
-	.shopping-item {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 10px;
-		border-bottom: 1px solid #ccc;
-	}
-	.edit-input {
-		padding: 5px;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-		margin-right: 5px;
-	}
-	.edit-btn,
-	.save-btn,
-	.cancel-btn {
-		margin-left: 10px;
-		cursor: pointer;
-		background: #4caf50;
-		color: white;
-		border: none;
-		padding: 5px 10px;
-		border-radius: 5px;
-	}
-	.edit-btn:hover,
-	.save-btn:hover,
-	.cancel-btn:hover {
-		background: #45a049;
-	}
-	.delete-btn {
-		background: none;
-		color: #f44336;
-		border: none;
-		cursor: pointer;
-		font-size: 1.2rem;
-	}
+    .shopping-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+    .edit-input {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+    .edit-btn, .save-btn, .cancel-btn {
+        margin-left: 10px;
+        cursor: pointer;
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    .edit-btn:hover, .save-btn:hover, .cancel-btn:hover {
+        background: #45a049;
+    }
+    .delete-btn {
+        background: none;
+        color: #f44336;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
 </style>
