@@ -55,6 +55,27 @@
         padding: 10px;
         border-bottom: 1px solid #ccc;
     }
+	.checkbox-container {
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+	}
+	.checkbox-container input {
+		display: none; 
+	}
+	.checkmark {
+		width: 20px;
+		height: 20px;
+		border: 2px solid #4caf50;
+		border-radius: 50%;
+		display: inline-block;
+		margin-right: 10px;
+		background: white;
+		transition: background 0.3s ease;
+	}
+	.checkbox-container input[type='checkbox']:checked + .checkmark {
+		background: #40b9e9;
+	}
     .edit-input {
         padding: 5px;
         border: 1px solid #ccc;
