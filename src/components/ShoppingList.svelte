@@ -5,6 +5,7 @@
     import ShoppingItem from './ShoppingItem.svelte';
 
 	let newItem = '';
+	let searchQuery = '';
 
 	onMount(async () => {
 		await loadShoppingList();
@@ -17,8 +18,16 @@
 		}
 	};
 
-	$: unResolvedItems = $shoppingList.filter(item => !item.bought)
-	$: resolvedItems = $shoppingList.filter(item => item.bought)
+	const clearSearch = () => {
+		searchQuery = '';
+	};
+
+	$: filteredItems = $shoppingList.filter(item =>
+		item.name.toLowerCase().includes(searchQuery.toLowerCase())
+	);
+
+	$: unResolvedItems = filteredItems.filter(item => !item.bought)
+	$: resolvedItems = filteredItems.filter(item => item.bought)
 
 </script>
 
@@ -33,6 +42,18 @@
 			on:keypress={(e) => e.key === 'Enter' && handleAddItem()}
 		/>
 		<button class="add-btn" on:click={handleAddItem}>Add</button>
+	</div>
+
+	<div class="input-container">
+		<input
+			type="text"
+			bind:value={searchQuery}
+			placeholder="Search items"
+			class="input mr-2"
+		/>
+		<button class="button is-light" on:click={clearSearch}>Clear</button>
+	</div>
+	<div class="control">
 	</div>
 
 	<!-- Unresolved Items -->
