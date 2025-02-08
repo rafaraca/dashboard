@@ -26,6 +26,21 @@ export const toggleBought = async (id: string, bought: boolean) => {
 	);
 };
 
+export const editShoppingItem = async (id: string, newName: string) => {
+    const itemRef = doc(db, 'shopping', id);
+    
+    try {
+        await updateDoc(itemRef, { name: newName });
+
+        // Atualizar localmente apenas após a atualização no Firestore
+        shoppingList.update(items =>
+            items.map(item => (item.id === id ? { ...item, name: newName } : item))
+        );
+    } catch (error) {
+        console.error('Erro ao editar item:', error);
+    }
+};
+
 export const deleteShoppingItem = async (id: string) => {
 	await deleteDoc(doc(db, 'shopping', id));
 	shoppingList.update((items) => items.filter((item) => item.id !== id));
