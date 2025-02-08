@@ -1,8 +1,15 @@
 <script lang="ts">
-	import { shoppingList, loadShoppingList, addShoppingItem, toggleBought, deleteShoppingItem } from '../store/shoppingStore';
+	import {
+		shoppingList,
+		loadShoppingList,
+		addShoppingItem,
+		toggleBought,
+		deleteShoppingItem,
+		editShoppingItem
+	} from '../store/shoppingStore';
 	import { onMount } from 'svelte';
 	import { blur } from 'svelte/transition';
-    import ShoppingItem from './ShoppingItem.svelte';
+	import ShoppingItem from './ShoppingItem.svelte';
 
 	let newItem = '';
 	let searchQuery = '';
@@ -22,13 +29,12 @@
 		searchQuery = '';
 	};
 
-	$: filteredItems = $shoppingList.filter(item =>
+	$: filteredItems = $shoppingList.filter((item) =>
 		item.name.toLowerCase().includes(searchQuery.toLowerCase())
 	);
 
-	$: unResolvedItems = filteredItems.filter(item => !item.bought)
-	$: resolvedItems = filteredItems.filter(item => item.bought)
-
+	$: unResolvedItems = filteredItems.filter((item) => !item.bought);
+	$: resolvedItems = filteredItems.filter((item) => item.bought);
 </script>
 
 <div class="container" in:blur={{ amount: 5, delay: 400 }}>
@@ -45,16 +51,10 @@
 	</div>
 
 	<div class="input-container">
-		<input
-			type="text"
-			bind:value={searchQuery}
-			placeholder="Search items"
-			class="input mr-2"
-		/>
+		<input type="text" bind:value={searchQuery} placeholder="Search items" class="input mr-2" />
 		<button class="button is-light" on:click={clearSearch}>Clear</button>
 	</div>
-	<div class="control">
-	</div>
+	<div class="control"></div>
 
 	<!-- Unresolved Items -->
 	<div class="shopping-list">
@@ -65,6 +65,7 @@
 					{item}
 					onToggleBought={toggleBought}
 					onDelete={deleteShoppingItem}
+					onEdit={editShoppingItem}
 				/>
 			{/each}
 		{:else}
@@ -81,6 +82,7 @@
 					{item}
 					onToggleBought={toggleBought}
 					onDelete={deleteShoppingItem}
+					onEdit={editShoppingItem}
 				/>
 			{/each}
 		{:else}
